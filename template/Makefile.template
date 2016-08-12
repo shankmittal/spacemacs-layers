@@ -1,0 +1,5 @@
+all:
+	gcc -o %PROJECT_NAME% %PROJECT_NAME%.c
+
+clean:
+	rm -rf %PROJECT_NAME%
