@@ -12,8 +12,10 @@
  - [[Key bindings][Key bindings]]
 
 * Description
-This layer does wonderful things:
-  - thing01
+c-project layer can be used to create simple C project in emacs. It does following:
+  - creates makefile
+  - creates main c file
+  - creates gtags
 
 * Install
 To use this contribution add it to your =~/.spacemacs=
@@ -24,6 +26,6 @@ To use this contribution add it to your =~/.spacemacs=
 
 * Key bindings
 
-| Key Binding     | Description    |
-|-----------------+----------------|
-| ~<SPC> x x x~   | Does thing01   |
+| Key Binding | Description     |
+|-------------+-----------------|
+| ~<SPC> S c~ | creates project |
