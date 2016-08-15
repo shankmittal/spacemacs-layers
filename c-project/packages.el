@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst c-project-packages
-  '()
+  '(helm-gtags)
   "The list of Lisp packages required by the c-project layer.
 
 Each entry is either:
@@ -83,7 +83,8 @@ Each entry is either:
                                    (message "File exists. Can't create project!!")
                                  (progn (make-directory name t)
                                         (c-project/copy-template "Makefile" "Makefile" name (file-name-nondirectory name))
-                                        (c-project/copy-template (concat (file-name-nondirectory name) ".c") "c" name (file-name-nondirectory name))))))
+                                        (c-project/copy-template (concat (file-name-nondirectory name) ".c") "c" name (file-name-nondirectory name))
+                                        (helm-gtags-create-tags name "defualt")))))
 
   (spacemacs/declare-prefix "S" "shashank-prefix")
   (spacemacs/set-leader-keys "Sc" (lambda() (interactive) (c-project/create)))

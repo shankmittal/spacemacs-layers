@@ -1,8 +1,6 @@
 #include <stdio.h>
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	// Add useful code here.
-
-	return 0;
+     return 0;
 }
