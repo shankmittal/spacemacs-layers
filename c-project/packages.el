@@ -63,6 +63,10 @@ Each entry is either:
 
 (defun c-project/get-path () (read-file-name "Enter C-Project Name: "))
 
+(defun c-project/create-projectile-file (project-dir)
+  (let ((file (concat project-dir "/.projectile")))
+    (write-region "" "" file)))
+
 (defun c-project/copy-template (name template project-dir project-name)
   (cl-flet ((substitute (old new) (let ((case-fold-search nil))
                                     (save-excursion
@@ -82,6 +86,7 @@ Each entry is either:
                                (if (file-exists-p name)
                                    (message "File exists. Can't create project!!")
                                  (progn (make-directory name t)
+                                        (c-project/create-projectile-file name)
                                         (c-project/copy-template "Makefile" "Makefile" name (file-name-nondirectory name))
                                         (c-project/copy-template (concat (file-name-nondirectory name) ".c") "c" name (file-name-nondirectory name))
                                         (helm-gtags-create-tags name "defualt")))))
