@@ -96,16 +96,36 @@ Each entry is either:
   ;; Adjust size of windows
   (balance-windows))
 
-;; (add-to-list 'helm-type-buffer-actions
-;;              '("Display buffer(s) in new window(s) `M-o'" .
-;;                helm-buffer-switch-new-window) 'append)
-
 (defun helm-file-switch-new-window ()
   (interactive)
   (with-helm-alive-p
     (helm-quit-and-execute-action 'helm-file-switch-to-new-window)))
 
+(defun helm-file-switch-to-new-window-h (_candidate)
+  "Display buffers in new windows."
+  ;; Select the bottom right window
+  (require 'winner)
+  (select-window (car (last (winner-sorted-window-list))))
+  ;; Display buffers in new windows
+  (dolist (buf (helm-marked-candidates))
+    (select-window (split-window-below))
+    (find-file buf))
+  ;; Adjust size of windows
+  (balance-windows))
+
+(defun helm-file-switch-new-window-h ()
+  (interactive)
+  (with-helm-alive-p
+    (helm-quit-and-execute-action 'helm-file-switch-to-new-window-h)))
+
+
 (eval-after-load "helm-files"
   '(progn
-    (define-key helm-find-files-map (kbd "M-v") #'helm-file-switch-new-window)))
+    (define-key helm-find-files-map (kbd "C-v") #'helm-file-switch-new-window)
+    (define-key helm-find-files-map (kbd "C-s") #'helm-file-switch-new-window-h)))
+
+(eval-after-load "helm-locate"
+  '(progn
+     (define-key helm-generic-files-map (kbd "C-v") #'helm-file-switch-new-window)
+     (define-key helm-generic-files-map (kbd "C-s") #'helm-file-switch-new-window-h)))
 ;;; packages.el ends here
