@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst helm-changes-packages
-  '(helm)
+  '(helm-types)
   "The list of Lisp packages required by the helm-changes layer.
 
 Each entry is either:
@@ -58,8 +58,7 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
-
-;;; packages.el ends here
+;; (require 'helm-types)
 (defun helm-buffer-switch-to-new-window (_candidate)
   "Display buffers in new windows."
   ;; Select the bottom right window
@@ -72,13 +71,20 @@ Each entry is either:
   ;; Adjust size of windows
   (balance-windows))
 
-(add-to-list 'helm-type-buffer-actions
-             '("Display buffer(s) in new window(s) `M-o'" .
-               helm-buffer-switch-new-window) 'append)
+;; (add-to-list 'helm-type-buffer-actions
+;;              '("Display buffer(s) in new window(s) `M-o'" .
+;;                helm-buffer-switch-new-window) 'append)
 
 (defun helm-buffer-switch-new-window ()
   (interactive)
   (with-helm-alive-p
     (helm-quit-and-execute-action 'helm-buffer-switch-to-new-window)))
 
-(define-key helm-buffer-map (kbd "M-o") #'helm-buffer-switch-new-window)
+(eval-after-load "helm-buffers"
+  '(progn
+     (define-key helm-buffer-map (kbd "M-o") #'helm-buffer-switch-new-window)))
+
+(eval-after-load "helm-files"
+  '(progn
+    (define-key helm-find-files-map (kbd "M-v") #'helm-buffer-switch-new-window)))
+;;; packages.el ends here
