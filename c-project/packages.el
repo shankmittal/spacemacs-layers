@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst c-project-packages
-  '(helm-gtags)
+  '()
   "The list of Lisp packages required by the c-project layer.
 
 Each entry is either:
@@ -81,15 +81,14 @@ Each entry is either:
       (substitute "%PROJECT_NAME%" project-name)
       (save-buffer))))
 
-  (defun c-project/create () (let ((name (c-project/get-path)))
-                               (message (format "Porject name: %s" name))
-                               (if (file-exists-p name)
-                                   (message "File exists. Can't create project!!")
-                                 (progn (make-directory name t)
-                                        (c-project/create-projectile-file name)
-                                        (c-project/copy-template "Makefile" "Makefile" name (file-name-nondirectory name))
-                                        (c-project/copy-template (concat (file-name-nondirectory name) ".c") "c" name (file-name-nondirectory name))
-                                        (helm-gtags-create-tags name "defualt")))))
+(defun c-project/create () (let ((name (c-project/get-path)))
+                             (message (format "Porject name: %s" name))
+                             (if (file-exists-p name)
+                                 (message "File exists. Can't create project!!")
+                               (progn (make-directory name t)
+                                      (c-project/create-projectile-file name)
+                                      (c-project/copy-template "Makefile" "Makefile" name (file-name-nondirectory name))
+                                      (c-project/copy-template (concat (file-name-nondirectory name) ".c") "c" name (file-name-nondirectory name))
+                                      (helm-gtags-create-tags name "defualt")))))
 
-  (spacemacs/declare-prefix "S" "shashank-prefix")
-  (spacemacs/set-leader-keys "Sc" (lambda() (interactive) (c-project/create)))
+(defun c-project-create () (lambda() (interactive) (c-project/create)))

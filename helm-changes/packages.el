@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst helm-changes-packages
-  '(helm-types)
+    '()
   "The list of Lisp packages required by the helm-changes layer.
 
 Each entry is either:
