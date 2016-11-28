@@ -93,6 +93,7 @@ Each entry is either:
 	  (c-set-style "linux"))
       (c-set-style "k&r"))))
 (add-hook 'c-mode-hook 'm/kernel-source-hook)
+(add-hook 'c++-mode-hook 'm/kernel-source-hook)
 (add-hook 'dts-mode-hook
           (lambda ()
             (progn
