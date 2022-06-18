@@ -30,7 +30,7 @@
 ;;; Code:
 
 (defconst helm-changes-packages
-    '()
+  '()
   "The list of Lisp packages required by the helm-changes layer.
 
 Each entry is either:
@@ -58,7 +58,6 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
-;; (require 'helm-types)
 (defun helm-buffer-switch-to-new-window (_candidate)
   "Display buffers in new windows."
   ;; Select the bottom right window
@@ -73,8 +72,11 @@ Each entry is either:
 
 (defun helm-buffer-switch-new-window ()
   (interactive)
+  (helm-add-action-to-source
+   "Open buffer in horizontal split `C-v '" 'helm-buffer-switch-to-new-window
+   helm-source-buffers-list)
   (with-helm-alive-p
-    (helm-quit-and-execute-action 'helm-buffer-switch-to-new-window)))
+   (helm-exit-and-execute-action 'helm-buffer-switch-to-new-window)))
 
 (defun helm-buffer-switch-to-new-window-h (_candidate)
   "Display buffers in new windows."
@@ -90,8 +92,11 @@ Each entry is either:
 
 (defun helm-buffer-switch-new-window-h ()
   (interactive)
+  (helm-add-action-to-source
+   "Open buffer in horizontal split `C-s '" 'helm-buffer-switch-to-new-window-h
+   helm-source-buffers-list)
   (with-helm-alive-p
-    (helm-quit-and-execute-action 'helm-buffer-switch-to-new-window-h)))
+   (helm-exit-and-execute-action 'helm-buffer-switch-to-new-window-h)))
 
 (eval-after-load "helm-buffers"
   '(progn
@@ -115,8 +120,12 @@ Each entry is either:
 
 (defun helm-file-switch-new-window ()
   (interactive)
+  (helm-add-action-to-source
+   "Open file in vertical split `C-v '" 'helm-file-switch-to-new-window
+   helm-source-find-files)
   (with-helm-alive-p
-    (helm-quit-and-execute-action 'helm-file-switch-to-new-window)))
+   (helm-exit-and-execute-action 'helm-file-switch-to-new-window)))
+
 
 (defun helm-file-switch-to-new-window-h (_candidate)
   "Display buffers in new windows."
@@ -132,14 +141,17 @@ Each entry is either:
 
 (defun helm-file-switch-new-window-h ()
   (interactive)
+  (helm-add-action-to-source
+   "Open file in horizontal split `C-s '" 'helm-file-switch-to-new-window-h
+   helm-source-find-files)
   (with-helm-alive-p
-    (helm-quit-and-execute-action 'helm-file-switch-to-new-window-h)))
+   (helm-exit-and-execute-action 'helm-file-switch-to-new-window-h)))
 
 
 (eval-after-load "helm-files"
   '(progn
-    (define-key helm-find-files-map (kbd "C-v") #'helm-file-switch-new-window)
-    (define-key helm-find-files-map (kbd "C-s") #'helm-file-switch-new-window-h)))
+     (define-key helm-find-files-map (kbd "C-v") #'helm-file-switch-new-window)
+     (define-key helm-find-files-map (kbd "C-s") #'helm-file-switch-new-window-h)))
 
 (eval-after-load "helm-locate"
   '(progn
